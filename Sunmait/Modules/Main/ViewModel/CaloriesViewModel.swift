@@ -92,6 +92,11 @@ final class CaloriesViewModel: ObservableObject {
         guard !trimmedName.isEmpty else { return }
         
         let calories = Int(caloriesInput.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+        
+        if let duplicate = dataManager.checkForDuplicate(name: trimmedName, in: todayItems) {
+            showDuplicateAlert = true
+            return
+        }
                 
         let newItem = FoodItem(name: trimmedName, calories: calories, imageData: pendingImageData)
         dataManager.insert(newItem)
